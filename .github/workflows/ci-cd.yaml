@@ -1,4 +1,3 @@
-
 name: Spring Boot CI - SonarQube - Docker - Trivy - Azure ACR
 
 on:
@@ -60,7 +59,7 @@ jobs:
 
       # 6. Scan Docker image using Trivy
       - name: Trivy vulnerability scan
-        uses: aquasecurity/trivy-action@0.36.0
+        uses: aquasecurity/trivy-action@v0.36.0
         with:
           image-ref: 'varunaks1793257564.azurecr.io/aks-demo-app-java:${{ github.sha }}'
           format: 'table'

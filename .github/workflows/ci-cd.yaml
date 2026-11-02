@@ -62,9 +62,11 @@ jobs:
           severity: HIGH,CRITICAL
 
       - name: Build Docker image
+        env:
+         IMAGE_TAG: ${{ github.sha }}-${{ github.run_number }}
         run: |
-          docker build \
-            -t aks-demo-app-java:${GITHUB_SHA} .
+            docker build \
+              -t aks-demo-app-java:${IMAGE_TAG} .
 
       - name: Trivy Docker image scan
         uses: aquasecurity/trivy-action@v0.36.0

@@ -63,7 +63,7 @@ jobs:
 
       - name: Build Docker image
         env:
-         IMAGE_TAG: ${{ github.sha }}-${{ github.run_number }}
+         IMAGE_TAG: ${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
         run: |
             docker build \
               -t aks-demo-app-java:${IMAGE_TAG} .
@@ -71,7 +71,7 @@ jobs:
       - name: Trivy Docker image scan
         uses: aquasecurity/trivy-action@v0.36.0
         with:
-           image-ref: aks-demo-app-java:${{ github.sha }}-${{ github.run_number }}
+           image-ref: aks-demo-app-java:${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
            format: table
            exit-code: '1'
            ignore-unfixed: true
@@ -93,7 +93,7 @@ jobs:
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         env:
           ECR_REGISTRY: 487043668737.dkr.ecr.ap-south-1.amazonaws.com
-          IMAGE_TAG: ${{ github.sha }}-${{ github.run_number }}
+          IMAGE_TAG: ${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
         run: |
           docker tag aks-demo-app-java:${IMAGE_TAG} \
             ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG}
@@ -106,7 +106,7 @@ jobs:
         env:
           GITOPS_TOKEN: ${{ secrets.GITOPS_TOKEN }}
           ECR_REGISTRY: 487043668737.dkr.ecr.ap-south-1.amazonaws.com
-          IMAGE_TAG: ${{ github.sha }}-${{ github.run_number }}
+          IMAGE_TAG: ${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
         run: |
           git clone https://x-access-token:${GITOPS_TOKEN}@github.com/${GITOPS_REPOSITORY}.git gitops-repo
 

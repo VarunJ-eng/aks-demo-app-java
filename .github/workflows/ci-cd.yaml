@@ -1,4 +1,4 @@
-name: Spring Boot CI - SonarCloud - Trivy - AWS ECR - ArgoCD GitOps
+name: CI-CD pipeline
 
 on:
   push:
